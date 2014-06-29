@@ -1,0 +1,33 @@
+{
+    "name": "mediacenterjs-streaming-movies",
+    "version": "0.0.1",
+    "description": "A streaming alternative to native movies app",
+    "keywords": [
+        "streaming",
+        " torrent",
+        " mediace",
+        "mediacenterjs"
+    ],
+    "homepage": "",
+    "bugs": {
+        "url": ""
+    },
+    "author": {
+        "name": "Jan Smolders"
+    },
+    "repository": {
+        "type": "",
+        "url": ""
+    },
+	"dependencies": {
+        "torrent-stream" : ">=0.13.4"
+	},
+    "peerDependencies": {
+        "mediacenterjs": "*"
+    },
+    "licenses": [
+        {
+            "type": "MIT"
+        }
+    ]
+}
