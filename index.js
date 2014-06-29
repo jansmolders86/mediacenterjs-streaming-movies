@@ -1,6 +1,6 @@
 /*
-	MediaCenterJS - A NodeJS based mediacenter solution
-	
+    MediaCenterJS - A NodeJS based mediacenter solution
+
     Copyright (C) 2013 - Jan Smolders
 
     This program is free software: you can redistribute it and/or modify
@@ -16,15 +16,46 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-// Choose your render engine. The default choice is JADE:  http://jade-lang.com/
 exports.engine = 'jade';
 
-// Render the indexpage
-exports.index = function(req, res, next){
+/* Modules */
+var express = require('express')
+, app = express()
+, fs = require('fs.extra')
+, config = require('../../lib/handlers/configuration-handler').getConfiguration()
+, DeviceInfo = require('../../lib/utils/device-utils')
+, torrentStream = require('torrent-stream');
 
-	res.render('streaming-movies', { data: "Hello MediacenterJS: My first plugin" });
-	
+exports.index = function(req, res){
+
+    DeviceInfo.isDeviceAllowed(req, function(allowed){
+        res.render('streaming-movies', {
+            title: 'Streaming Movies',
+            selectedTheme: config.theme,
+            allowed: allowed
+        });
+    });
+
 };
 
+exports.get = function(req, res){
+    var infoRequest = req.params.id,
+        optionalParam = req.params.optionalParam;
+    
 
+}
 
+exports.post = function(req, res){
+    if(req.params.id === 'file'){
+        var data =  req.body;
+        var engine = torrentStream(data.magnet);
+
+        engine.on('ready', function() {
+            engine.files.forEach(function(file) {
+                //var stream = file.createReadStream();
+                res.send(file.name);
+                res.end();
+            });
+        });
+    }
+}
